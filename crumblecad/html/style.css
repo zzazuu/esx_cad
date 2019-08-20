@@ -1,0 +1,93 @@
+html, body {margin: 0; height: 100%; overflow: hidden; } 
+
+.container{
+  max-width: 857px;
+  color: white;
+}
+
+.backgroundImage{
+  margin-top: 2.2%;
+  width: 100%;
+  height: auto;
+}
+
+/*Header font stuff*/
+.homepage{
+  position: relative;
+  margin-top: -39.5%;
+  margin-left: 3%;
+  width: 100%;
+} 
+
+.inline-headers h1 {
+  display: inline-block;
+  vertical-align: baseline;
+  margin-left: 10%;
+  padding: 1.5%;
+}
+
+.inline-headers .headerViewR{
+  position: absolute;
+  left: 40%;
+}
+
+.headerCheckC:hover, .headerCheckV:hover, .headerViewR:hover, .headerWriteR:hover{
+  color: #f7fe16;
+}
+
+/*Start of citizen search*/
+.citizenInput {
+  position:absolute;
+  top: 15%;
+  left: 33%;
+  width: 35%;
+  color:white;
+} 
+.citizenResults {
+  position:absolute;
+  top: 30%;
+  left: -40%;
+  width: 180%;
+  color:white;
+} 
+.citizenReportResults, .convictionResults, .warrantResults, .fineResults, .vehicleCheck,
+.vehicleResults {
+  position:absolute;
+  top: 27%;
+  left: -40%;
+  width: 180%;
+}
+.my-custom-scrollbar {
+  position: relative;
+  height: 300px;
+  overflow: auto;
+}
+.table-wrapper-scroll-y {
+  display: block;
+}
+
+/*Start of vehicle search*/
+.vehicleInput{
+  position:absolute;
+  top: 25%;
+  left: 33%;
+  width: 35%;
+  color:white;
+}
+
+/*Start of view reports*/
+.reportResults{
+  position:absolute;
+  top: 27%;
+  left: -40%;
+  width: 180%;
+  color:white;
+}
+
+/*No info found*/
+
+.noFines, .noWarrants, .noIncidents, .noConvictions, .noReports {
+  position: absolute;
+  top: -20%;
+  left: 25%;
+}
