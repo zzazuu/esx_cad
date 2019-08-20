@@ -3,6 +3,69 @@ local ESX = nil
 TriggerEvent('esx:getSharedObject',function(obj)
     ESX = obj
 end)
+
+----------------------------------------
+--------------Register user-------------
+----------------------------------------
+RegisterNetEvent('cadUser:Register')
+AddEventHandler('cadUser:Register', function(data)
+
+    --Get there first and last name. 
+    local name = MySQL.Sync.fetchAll('SELECT firstname, lastname FROM users WHERE identifier = @identifier', {
+        ['@identifier'] = GetPlayerIdentifiers(source)[1]
+    })
+    local firstName = name[1].firstname
+    local lastName = name[1].lastname
+    local dob = name[1].dateofbirth
+    --trigger a function to check if they're already in the database
+    dbCheck(firstName, lastName, dob)
+end)
+
+function dbCheck(firstName, lastName, dob)
+    --See if they're in the database
+    local result = MySQL.Sync.fetchAll('SELECT * FROM cad_users WHERE name = @name AND dob = @dob',{
+        ['@name'] = firstName.." "..lastName,
+        ['@dob'] = dob
+    })
+
+    --check if there's anything returned from above. If there is, then stop. If there's not then head of and update caduser.
+    if next(result) == nil then
+        --add users.
+        addUser(firstName, lastName, dob)
+    end
+end
+
+function addUser(firstName, lastName, dob)
+    --so here we already have there first name, we now need to get there DateOfBirth,Sex,Height,identifier.. Also insert License as 0
+    local result = MySQL.Sync.fetchAll('SELECT * FROM characters WHERE FirstName = @firstName AND LastName = @lastName AND dateofbirth = @dob',{
+        ['@firstName'] = firstName,
+        ['@lastName'] = lastName,
+        ['@dob'] = dob,
+    })
+
+    local DateOfBirth = result[1].dateofbirth
+    local sex = result[1].sex
+    local height = result[1].height
+    local identifier = result[1].identifier
+    
+    if DateOfBirth ~= nil and sex ~= nil and height ~= nil and identifier ~= nil then
+        MySQL.Async.execute('INSERT INTO cadusers (identifier, FirstName, LastName, DateOfBirth, Sex, Height, DriversLicence) VALUES (@identifier, @FirstName, @LastName, @DateOfBirth, @Sex, @Height, @DriversLicence)', --insert into cad
+        {
+            ['@identifier']   = identifier,
+            ['@FirstName']   = firstName,
+            ['@LastName'] = lastName,
+            ['@DateOfBirth'] = DateOfBirth,
+            ['@Sex'] = sex,
+            ['@Height'] = height,
+            ['@DriversLicence'] = 0
+        }, function (rowsChanged)
+        end)
+    end
+end
+---------------------------------------
+-------------End register user---------
+---------------------------------------
+
 ----------------------------------------
 --=========Start Callbacks============--
 ----------------------------------------
